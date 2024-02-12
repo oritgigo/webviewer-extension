@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script
+      src="https://thunkable.github.io/webviewer-extension/thunkableWebviewerExtension.js"
+      type="text/javascript"
+    ></script>
+    <script
+      src="https://davidshimjs.github.io/qrcodejs/qrcode.min.js"
+      type="text/javascript"
+    ></script>
+  </head>
+  <body style="margin: 0px">
+    <div id="container"></div>
+    <script>
+      // when we get a message from the app, parse it
+
+      //window.testIt = function(message) {
+      ThunkableWebviewerExtension.receiveMessage(function(message) {
+        try {
+          const messageObject = JSON.parse(message);
+          console.log(message);
+          document.getElementById("container").innerHTML = "";
+          var qrcode = new QRCode(document.getElementById("container"), {
+                                  text: messageObject.message,
+                                  width: window.innerWidth,
+                                  height: window.innerHeight,
+                                  colorDark : messageObject.color,
+                                  colorLight : "#ffffff",
+                                  correctLevel : QRCode.CorrectLevel.H
+                                });
+
+        } catch (e) {
+          console.error(e);
+          console.error("An error occurred");
+        }
+      });
+      //}
+    </script>
+  </body>
+</html>
